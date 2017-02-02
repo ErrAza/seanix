@@ -1,5 +1,5 @@
 <?php
-require "android_test.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/android/android_dbconnect.php";
 
 $name = $_POST["user"];
 $user_name = $_POST["user_name"];
