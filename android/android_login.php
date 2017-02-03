@@ -5,26 +5,6 @@ $user_name = $_POST["login_name"];
 $user_password = $_POST["login_pass"];
 $user_salt = $_POST["login_salt"];
 
-if ($user_salt == "")
-{
-	// If no salt is provided on login, we need to fetch it to compare. (This is to accomodate a 2ndary request to the same script)
-	$getuser_query = "SELECT name FROM user_info WHERE user_name LIKE '$user_name';";
-
-	$result = mysqli_query($conn, $getuser_query);
-
-	if (mysqli_num_rows($result) > 0)
-	{
-		$row = mysqli_fetch_assoc($result);
-		$salt = $row["salt"];
-		echo $salt;
-	}
-	else
-	{
-		echo "SALT NOT FOUND";
-	}
-}
-else if ($user_password != "" && $user_salt != "")
-{
 	// Salt was provided, let us now compare the hashed passwords
 	$getuser_query = "SELECT name FROM user_info WHERE user_pass LIKE '$user_password';";
 
@@ -33,27 +13,26 @@ else if ($user_password != "" && $user_salt != "")
 	if (mysqli_num_rows($result) > 0)
 	{
 		$row = mysqli_fetch_assoc($result);
-		$user_name = $row["user_name"];
 
-		if ($salt == $row["salt"])
+		if ($user_name == $row["user_name"])
 		{
-			echo "SUCCESS";
+			if ($salt == $row["salt"])
+			{
+				echo "SUCCESS";
+			}
+			else
+			{
+				echo "Passwords match, but salt does not!";
+			}
 		}
 		else
 		{
-			echo "Passwords match, but salt does not!";
+			echo "Usernames do not match!"
 		}
 	}
 	else
 	{
-		echo "FAIL";
+		echo "No User Exists for: ".$user_name;
 	}
-}
-else
-{
-	echo "PHP ERROR";
-}
-
-
 
 ?>
