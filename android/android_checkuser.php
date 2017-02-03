@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT']."/android/android_dbconnect.php";
 
 $user_name = $_POST["login_name"];
 
-	$getuser_query = "SELECT name FROM user_info WHERE user_name LIKE '$user_name';";
+	$getuser_query = "SELECT salt FROM user_info WHERE user_name LIKE '$user_name';";
 
 	$result = mysqli_query($conn, $getuser_query);
 
