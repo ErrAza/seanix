@@ -20,10 +20,10 @@ if ($user_salt == "")
 	}
 	else
 	{
-		echo "No matching salt query found for ".$user_name;
+		echo "SALT NOT FOUND";
 	}
 }
-else
+else if ($user_password != "" && $user_salt != "")
 {
 	// Salt was provided, let us now compare the hashed passwords
 	$getuser_query = "SELECT name FROM user_info WHERE user_pass LIKE '$user_password';";
@@ -37,7 +37,7 @@ else
 
 		if ($salt == $row["salt"])
 		{
-			echo "Login successful for: ".$user_name;
+			echo "SUCCESS";
 		}
 		else
 		{
@@ -46,8 +46,12 @@ else
 	}
 	else
 	{
-		echo "No matching pw query found for ".$user_name;
+		echo "FAIL";
 	}
+}
+else
+{
+	echo "PHP ERROR";
 }
 
 
